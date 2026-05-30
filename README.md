@@ -1,6 +1,6 @@
 
 <a href="https://github.com/VoltAgent/voltagent">
-     <img width="1500"  alt="claude-skills" src="https://github.com/user-attachments/assets/d012a0d2-cec3-4630-ba5e-acc339dbe6cf" />
+     <img width="1500"  alt="claude-skills" src="https://cdn.voltagent.dev/awesome-repo/logo.json.svg" />
 </a>
 
 
@@ -8,7 +8,7 @@
 <br/>
 
 <div align="center">
-    <strong>Curated collection of DESIGN.md files inspired by developer focused websites.</strong>
+    <strong>Curated collection of DESIGN.md analysis by developer focused websites.</strong>
     <br />
     <br />
 
@@ -26,7 +26,9 @@
 
 # Awesome DESIGN.md
 
-Copy a DESIGN.md into your project, tell your AI agent "build me a page that looks like this" and get pixel-perfect UI that actually matches.
+Copy a DESIGN.md into your project, tell your AI agent “build me a page that looks like this,” and generate high-quality UI that stays visually consistent with the design language.
+
+Built with real design depth — including analyzed patterns, tokens, and rules — for high-quality UI generation, not surface-level outputs.
 
 
 ## What is DESIGN.md?
@@ -67,15 +69,19 @@ Tools, platforms, and services for designing and shipping web apps with AI.
 
 <h4>👉 Feature your product alongside the developers, designers, and vibecoders shipping UI with AI coding agents and web builders.</h4>
 
-[**Become a sponsor →**](https://sponsors.voltagent.dev/#awesome-design-md)
+<sub>Ranked #150 globally on GitHub. A community resource used by developers, designers, and vibecoders.</sub>
 
-<br/>
+<a href="https://sponsors.voltagent.dev/#awesome-design-md"><img src="https://img.shields.io/badge/📩_Become_a_Sponsor-Contact_Us-blue?style=for-the-badge&logoColor=white" alt="Become a Sponsor" /></a>
+
 
 </td>
 </tr>
 </table>
 
 </div>
+
+
+
 
 
 
