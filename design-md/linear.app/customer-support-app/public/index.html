@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Support</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="widget">
+    <header class="widget__header">
+      <span class="widget__dot" aria-hidden="true"></span>
+      <h1 class="widget__title">Support</h1>
+      <p class="widget__subtitle">Ask us anything &mdash; we usually reply in seconds.</p>
+    </header>
+
+    <div class="widget__messages" id="messages" role="log" aria-live="polite"></div>
+
+    <div class="widget__error" id="error" role="alert" hidden></div>
+
+    <form class="widget__composer" id="composer">
+      <input
+        type="text"
+        id="input"
+        class="widget__input"
+        placeholder="Type your message..."
+        autocomplete="off"
+        maxlength="4000"
+      />
+      <button type="submit" class="widget__send" id="send">Send</button>
+    </form>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,196 @@
+/* Tokens sourced from design-md/linear.app/DESIGN.md */
+:root {
+  --color-primary: #5e6ad2;
+  --color-on-primary: #ffffff;
+  --color-primary-hover: #828fff;
+  --color-primary-focus: #5e69d1;
+  --color-ink: #f7f8f8;
+  --color-ink-muted: #d0d6e0;
+  --color-ink-subtle: #8a8f98;
+  --color-ink-tertiary: #62666d;
+  --color-canvas: #010102;
+  --color-surface-1: #0f1011;
+  --color-surface-2: #141516;
+  --color-hairline: #23252a;
+  --color-hairline-strong: #34343a;
+  --color-semantic-error: #e5484d;
+
+  --font-display: 'Inter', 'SF Pro Display', -apple-system, system-ui, 'Segoe UI', Roboto, sans-serif;
+  --font-text: 'Inter', 'SF Pro Display', -apple-system, system-ui, 'Segoe UI', Roboto, sans-serif;
+
+  --rounded-md: 8px;
+  --rounded-lg: 12px;
+  --rounded-full: 9999px;
+
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-text);
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: -0.05px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: var(--spacing-lg);
+}
+
+.widget {
+  width: 100%;
+  max-width: 420px;
+  height: 600px;
+  background: var(--color-surface-1);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--rounded-lg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.widget__header {
+  padding: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-hairline);
+  position: relative;
+}
+
+.widget__dot {
+  position: absolute;
+  top: var(--spacing-lg);
+  right: var(--spacing-lg);
+  width: 8px;
+  height: 8px;
+  border-radius: var(--rounded-full);
+  background: #27a644;
+}
+
+.widget__title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.4px;
+  line-height: 1.25;
+  margin: 0 0 4px 0;
+}
+
+.widget__subtitle {
+  font-size: 14px;
+  color: var(--color-ink-subtle);
+  margin: 0;
+}
+
+.widget__messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.message {
+  max-width: 80%;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--rounded-md);
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.message--user {
+  align-self: flex-end;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.message--assistant {
+  align-self: flex-start;
+  background: var(--color-surface-2);
+  color: var(--color-ink);
+  border: 1px solid var(--color-hairline);
+}
+
+.message--pending {
+  color: var(--color-ink-subtle);
+}
+
+.widget__error {
+  margin: 0 var(--spacing-lg) var(--spacing-sm);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--rounded-md);
+  background: rgba(229, 72, 77, 0.12);
+  border: 1px solid var(--color-semantic-error);
+  color: var(--color-semantic-error);
+  font-size: 13px;
+}
+
+.widget__composer {
+  display: flex;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-top: 1px solid var(--color-hairline);
+}
+
+.widget__input {
+  flex: 1;
+  background: var(--color-surface-1);
+  color: var(--color-ink);
+  font-family: var(--font-text);
+  font-size: 16px;
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--rounded-md);
+  padding: 8px 12px;
+  outline: none;
+}
+
+.widget__input::placeholder {
+  color: var(--color-ink-tertiary);
+}
+
+.widget__input:focus {
+  border-color: var(--color-hairline-strong);
+  box-shadow: 0 0 0 2px var(--color-primary-focus);
+}
+
+.widget__send {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-family: var(--font-text);
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  border-radius: var(--rounded-md);
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+.widget__send:hover {
+  background: var(--color-primary-hover);
+}
+
+.widget__send:active {
+  background: var(--color-primary-focus);
+}
+
+.widget__send:disabled {
+  background: var(--color-surface-2);
+  color: var(--color-ink-tertiary);
+  cursor: not-allowed;
+}
