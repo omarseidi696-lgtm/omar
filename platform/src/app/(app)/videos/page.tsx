@@ -5,8 +5,10 @@ import { PlayCircle, Star, Clock } from "lucide-react";
 import { useT, useLocale } from "@/lib/i18n/locale-context";
 import { Card, CardHover } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { StaggerGrid, StaggerItem } from "@/components/ui/motion";
 import { cn } from "@/lib/cn";
-import { videos } from "@/lib/data/videos";
+import { videos, getVideoSearchUrl } from "@/lib/data/videos";
 import { skills } from "@/lib/data/skills";
 import type { Level } from "@/lib/data/types";
 
@@ -105,9 +107,10 @@ export default function VideosPage() {
       </p>
 
       {filtered.length > 0 ? (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <StaggerGrid className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((video) => (
-            <CardHover key={video.id} className="flex flex-col gap-3">
+            <StaggerItem key={video.id}>
+            <CardHover className="flex flex-col gap-3">
               <div className="flex aspect-video items-center justify-center rounded-md bg-surface-3 text-ink-tertiary">
                 <PlayCircle size={32} strokeWidth={1.5} />
               </div>
@@ -117,7 +120,7 @@ export default function VideosPage() {
               </div>
               <h3 className="text-sm font-medium text-ink">{video.title[locale]}</h3>
               <p className="text-xs text-ink-subtle">{video.channel}</p>
-              <div className="mt-auto flex items-center gap-3 text-xs text-ink-subtle">
+              <div className="flex items-center gap-3 text-xs text-ink-subtle">
                 <span className="inline-flex items-center gap-1">
                   <Star size={12} className="text-warning" /> {video.rating}
                 </span>
@@ -125,9 +128,21 @@ export default function VideosPage() {
                   <Clock size={12} /> {video.durationMinutes} {t.common.minutes}
                 </span>
               </div>
+              <Button
+                href={getVideoSearchUrl(video, locale)}
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="secondary"
+                size="sm"
+                className="mt-auto w-full"
+                icon={<PlayCircle size={14} />}
+              >
+                {t.videos.watchNow}
+              </Button>
             </CardHover>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerGrid>
       ) : (
         <Card className="py-12 text-center text-sm text-ink-subtle">{t.common.noResults}</Card>
       )}

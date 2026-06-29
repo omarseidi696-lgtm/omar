@@ -14,6 +14,9 @@ export type ProfileState = {
   quizResults: QuizResult[];
   certificates: Certificate[];
   savedCourseIds: string[];
+  enrolledCourseIds: string[];
+  joinedChallengeIds: string[];
+  appliedJobIds: string[];
   projectSubmissions: ProjectSubmission[];
 };
 
@@ -27,6 +30,9 @@ const defaultState: ProfileState = {
   quizResults: [],
   certificates: [],
   savedCourseIds: [],
+  enrolledCourseIds: [],
+  joinedChallengeIds: [],
+  appliedJobIds: [],
   projectSubmissions: [],
 };
 
@@ -117,6 +123,31 @@ export function useProfile() {
     }));
   }, []);
 
+  const enrollCourse = useCallback((courseId: string) => {
+    update((prev) => ({
+      ...prev,
+      enrolledCourseIds: prev.enrolledCourseIds.includes(courseId)
+        ? prev.enrolledCourseIds
+        : [...prev.enrolledCourseIds, courseId],
+    }));
+  }, []);
+
+  const toggleChallengeJoin = useCallback((challengeId: string) => {
+    update((prev) => ({
+      ...prev,
+      joinedChallengeIds: prev.joinedChallengeIds.includes(challengeId)
+        ? prev.joinedChallengeIds.filter((id) => id !== challengeId)
+        : [...prev.joinedChallengeIds, challengeId],
+    }));
+  }, []);
+
+  const applyToJob = useCallback((jobId: string) => {
+    update((prev) => ({
+      ...prev,
+      appliedJobIds: prev.appliedJobIds.includes(jobId) ? prev.appliedJobIds : [...prev.appliedJobIds, jobId],
+    }));
+  }, []);
+
   const submitProject = useCallback((submission: ProjectSubmission) => {
     update((prev) => ({
       ...prev,
@@ -141,6 +172,9 @@ export function useProfile() {
     toggleModule,
     recordQuizResult,
     toggleSavedCourse,
+    enrollCourse,
+    toggleChallengeJoin,
+    applyToJob,
     submitProject,
     setDisplayName,
     setGoal,

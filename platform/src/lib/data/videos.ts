@@ -57,3 +57,7 @@ export function getVideosBySkill(skillSlug: string) {
     .filter((v) => v.skillSlug === skillSlug)
     .sort((a, b) => b.rating - a.rating);
 }
+
+export function getVideoSearchUrl(video: VideoItem, locale: "en" | "ar"): string {
+  return `https://www.youtube.com/results?search_query=${encodeURIComponent(`${video.title[locale]} ${video.channel}`)}`;
+}

@@ -1,11 +1,13 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import { Sparkles, Star, Users, Clock, Award, Search, X } from "lucide-react";
 import { useT, useLocale } from "@/lib/i18n/locale-context";
 import { useProfile } from "@/lib/store/profile-store";
 import { Card, CardHover } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { StaggerGrid, StaggerItem } from "@/components/ui/motion";
 import { courses } from "@/lib/data/courses";
 import { domains } from "@/lib/data/domains";
 import { skills } from "@/lib/data/skills";
@@ -21,40 +23,46 @@ function CourseCard({ course, saved, onToggleSave }: { course: Course; saved: bo
   const t = useT();
   const { locale } = useLocale();
   return (
-    <CardHover className="flex flex-col gap-3">
-      <div className="flex items-start justify-between gap-2">
-        <Badge tone="default">{domains.find((d) => d.slug === course.domainSlug)?.name[locale]}</Badge>
-        <button
-          onClick={onToggleSave}
-          aria-label={t.common.save}
-          className={saved ? "text-primary" : "text-ink-tertiary hover:text-ink"}
-        >
-          <Star size={16} fill={saved ? "currentColor" : "none"} />
-        </button>
-      </div>
-      <h3 className="font-medium text-ink">{course.title[locale]}</h3>
-      <p className="text-xs text-ink-subtle">{course.provider}</p>
-      <div className="flex flex-wrap items-center gap-3 text-xs text-ink-subtle">
-        <span className="inline-flex items-center gap-1">
-          <Star size={12} className="text-warning" /> {course.rating}
-        </span>
-        <span className="inline-flex items-center gap-1">
-          <Users size={12} /> {course.students.toLocaleString()}
-        </span>
-        <span className="inline-flex items-center gap-1">
-          <Clock size={12} /> {course.durationHours} {t.common.hours}
-        </span>
-        {course.hasCertificate && (
-          <span className="inline-flex items-center gap-1 text-primary">
-            <Award size={12} /> {t.common.certificate}
+    <Link href={`/courses/${course.id}`} className="block">
+      <CardHover className="flex flex-col gap-3">
+        <div className="flex items-start justify-between gap-2">
+          <Badge tone="default">{domains.find((d) => d.slug === course.domainSlug)?.name[locale]}</Badge>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onToggleSave();
+            }}
+            aria-label={t.common.save}
+            className={saved ? "text-primary" : "text-ink-tertiary hover:text-ink"}
+          >
+            <Star size={16} fill={saved ? "currentColor" : "none"} />
+          </button>
+        </div>
+        <h3 className="font-medium text-ink">{course.title[locale]}</h3>
+        <p className="text-xs text-ink-subtle">{course.provider}</p>
+        <div className="flex flex-wrap items-center gap-3 text-xs text-ink-subtle">
+          <span className="inline-flex items-center gap-1">
+            <Star size={12} className="text-warning" /> {course.rating}
           </span>
-        )}
-      </div>
-      <div className="mt-auto flex items-center justify-between pt-2">
-        <span className="font-semibold text-ink">{course.price === 0 ? t.common.free : `$${course.price}`}</span>
-        <Badge tone="default">{t.common[course.level]}</Badge>
-      </div>
-    </CardHover>
+          <span className="inline-flex items-center gap-1">
+            <Users size={12} /> {course.students.toLocaleString()}
+          </span>
+          <span className="inline-flex items-center gap-1">
+            <Clock size={12} /> {course.durationHours} {t.common.hours}
+          </span>
+          {course.hasCertificate && (
+            <span className="inline-flex items-center gap-1 text-primary">
+              <Award size={12} /> {t.common.certificate}
+            </span>
+          )}
+        </div>
+        <div className="mt-auto flex items-center justify-between pt-2">
+          <span className="font-semibold text-ink">{course.price === 0 ? t.common.free : `$${course.price}`}</span>
+          <Badge tone="default">{t.common[course.level]}</Badge>
+        </div>
+      </CardHover>
+    </Link>
   );
 }
 
@@ -143,16 +151,17 @@ export default function CoursesPage() {
             <h2 className="text-sm font-medium">{t.courses.recommendedTitle}</h2>
           </div>
           <p className="mt-1 text-xs text-ink-subtle">{t.courses.recommendedSubtitle}</p>
-          <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <StaggerGrid className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
             {recommended.map((course) => (
-              <CourseCard
-                key={course.id}
-                course={course}
-                saved={profile.savedCourseIds.includes(course.id)}
-                onToggleSave={() => toggleSavedCourse(course.id)}
-              />
+              <StaggerItem key={course.id}>
+                <CourseCard
+                  course={course}
+                  saved={profile.savedCourseIds.includes(course.id)}
+                  onToggleSave={() => toggleSavedCourse(course.id)}
+                />
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerGrid>
         </Card>
       )}
 
@@ -235,16 +244,17 @@ export default function CoursesPage() {
       </p>
 
       {filtered.length > 0 ? (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <StaggerGrid className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((course) => (
-            <CourseCard
-              key={course.id}
-              course={course}
-              saved={profile.savedCourseIds.includes(course.id)}
-              onToggleSave={() => toggleSavedCourse(course.id)}
-            />
+            <StaggerItem key={course.id}>
+              <CourseCard
+                course={course}
+                saved={profile.savedCourseIds.includes(course.id)}
+                onToggleSave={() => toggleSavedCourse(course.id)}
+              />
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerGrid>
       ) : (
         <Card className="py-12 text-center text-sm text-ink-subtle">{t.common.noResults}</Card>
       )}

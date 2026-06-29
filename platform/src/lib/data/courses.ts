@@ -120,3 +120,23 @@ export const courses: Course[] = domains.flatMap((domain, domainIndex) => {
 export function getCoursesByDomain(domainSlug: string) {
   return courses.filter((c) => c.domainSlug === domainSlug);
 }
+
+export function getCourse(id: string) {
+  return courses.find((c) => c.id === id);
+}
+
+const providerSearchUrls: Record<string, string> = {
+  Coursera: "https://www.coursera.org/search?query=",
+  Udemy: "https://www.udemy.com/courses/search/?q=",
+  edX: "https://www.edx.org/search?q=",
+  "LinkedIn Learning": "https://www.linkedin.com/learning/search?keywords=",
+  Pluralsight: "https://www.pluralsight.com/search?q=",
+  DataCamp: "https://www.datacamp.com/search?q=",
+  Udacity: "https://www.udacity.com/catalog?search=",
+};
+
+export function getProviderUrl(course: Course): string | null {
+  const base = providerSearchUrls[course.provider];
+  if (!base) return null;
+  return `${base}${encodeURIComponent(course.title.en)}`;
+}

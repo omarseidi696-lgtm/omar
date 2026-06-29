@@ -16,6 +16,7 @@ import { useT, useLocale } from "@/lib/i18n/locale-context";
 import { useProfile } from "@/lib/store/profile-store";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { StaggerGrid, StaggerItem } from "@/components/ui/motion";
 import { skills } from "@/lib/data/skills";
 import { getRoadmap } from "@/lib/data/roadmaps";
 import { jobs, computeMatch } from "@/lib/data/jobs";
@@ -131,18 +132,20 @@ export default function DashboardPage() {
       </Card>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+      <StaggerGrid className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         {stats.map((stat) => {
           const Icon = stat.icon;
           return (
-            <Card key={stat.label} className="flex flex-col gap-2">
-              <Icon size={18} className="text-primary" />
-              <span className="text-2xl font-semibold text-ink">{stat.value}</span>
-              <span className="text-xs text-ink-subtle">{stat.label}</span>
-            </Card>
+            <StaggerItem key={stat.label}>
+              <Card className="flex flex-col gap-2">
+                <Icon size={18} className="text-primary" />
+                <span className="text-2xl font-semibold text-ink">{stat.value}</span>
+                <span className="text-xs text-ink-subtle">{stat.label}</span>
+              </Card>
+            </StaggerItem>
           );
         })}
-      </div>
+      </StaggerGrid>
 
       {/* Skills */}
       <Card>
@@ -227,7 +230,7 @@ export default function DashboardPage() {
             {recommendedJobs.map(({ job, match }) => (
               <Link
                 key={job.id}
-                href="/jobs"
+                href={`/jobs/${job.id}`}
                 className="flex items-center justify-between rounded-md border border-hairline px-3 py-2.5 transition-colors hover:border-hairline-strong hover:bg-surface-2"
               >
                 <div>

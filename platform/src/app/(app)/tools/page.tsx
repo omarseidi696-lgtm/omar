@@ -1,12 +1,22 @@
 "use client";
 
 import { useState } from "react";
-import { Lightbulb, Monitor, BookOpen, Globe, SquarePlay, FileBox } from "lucide-react";
+import { Lightbulb, Monitor, BookOpen, Globe, SquarePlay, FileBox, ExternalLink } from "lucide-react";
 import { useT, useLocale } from "@/lib/i18n/locale-context";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/cn";
 import { skills } from "@/lib/data/skills";
 import { toolkits } from "@/lib/data/toolkits";
+
+const groupSearchEngine: Record<string, (item: string) => string> = {
+  channels: (item) => `https://www.youtube.com/results?search_query=${encodeURIComponent(item)}`,
+};
+
+function getToolSearchUrl(item: string, groupKey: string): string {
+  const engine = groupSearchEngine[groupKey];
+  if (engine) return engine(item);
+  return `https://www.google.com/search?q=${encodeURIComponent(item)}`;
+}
 
 export default function ToolsPage() {
   const t = useT();
@@ -17,11 +27,11 @@ export default function ToolsPage() {
 
   const groups = toolkit
     ? [
-        { label: t.tools.software, icon: Monitor, items: toolkit.software },
-        { label: t.tools.books, icon: BookOpen, items: toolkit.books },
-        { label: t.tools.websites, icon: Globe, items: toolkit.websites },
-        { label: t.tools.channels, icon: SquarePlay, items: toolkit.channels },
-        { label: t.tools.templates, icon: FileBox, items: toolkit.templates },
+        { key: "software", label: t.tools.software, icon: Monitor, items: toolkit.software },
+        { key: "books", label: t.tools.books, icon: BookOpen, items: toolkit.books },
+        { key: "websites", label: t.tools.websites, icon: Globe, items: toolkit.websites },
+        { key: "channels", label: t.tools.channels, icon: SquarePlay, items: toolkit.channels },
+        { key: "templates", label: t.tools.templates, icon: FileBox, items: toolkit.templates },
       ]
     : [];
 
@@ -68,10 +78,18 @@ export default function ToolsPage() {
                     <Icon size={16} className="text-primary" />
                     <h2 className="text-sm font-medium">{group.label}</h2>
                   </div>
-                  <ul className="mt-3 flex flex-col gap-2 text-sm text-ink-subtle">
+                  <ul className="mt-3 flex flex-col gap-2 text-sm">
                     {group.items.map((item) => (
                       <li key={item} className="border-b border-hairline pb-2 last:border-0 last:pb-0">
-                        {item}
+                        <a
+                          href={getToolSearchUrl(item, group.key)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 text-ink-subtle transition-colors hover:text-primary"
+                        >
+                          {item}
+                          <ExternalLink size={12} className="shrink-0" />
+                        </a>
                       </li>
                     ))}
                   </ul>

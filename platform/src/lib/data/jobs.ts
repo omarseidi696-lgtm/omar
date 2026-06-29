@@ -183,9 +183,17 @@ export function getJobsByDomain(domainSlug: string) {
   return jobs.filter((j) => j.domainSlug === domainSlug);
 }
 
+export function getJob(id: string) {
+  return jobs.find((j) => j.id === id);
+}
+
 export function computeMatch(job: Job, userSkills: string[]): number {
   if (job.requiredSkills.length === 0) return 0;
   const normalizedUser = userSkills.map((s) => s.toLowerCase());
   const matched = job.requiredSkills.filter((s) => normalizedUser.includes(s.toLowerCase()));
   return Math.round((matched.length / job.requiredSkills.length) * 100);
+}
+
+export function getJobApplyUrl(job: Job): string {
+  return `https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(`${job.title.en} ${job.company}`)}`;
 }

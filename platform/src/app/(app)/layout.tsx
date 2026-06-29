@@ -1,5 +1,6 @@
 import { AppSidebar } from "@/components/layout/app-sidebar";
 import { Container } from "@/components/ui/container";
+import { PageTransition } from "@/components/layout/page-transition";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -10,7 +11,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <AppSidebar />
         </div>
       </aside>
-      <div className="min-w-0 flex-1 pb-16">{children}</div>
+      <div className="min-w-0 flex-1 pb-16">
+        <PageTransition>{children}</PageTransition>
+      </div>
     </Container>
   );
 }

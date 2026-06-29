@@ -1,11 +1,13 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import { Search, MapPin, Wifi, Banknote, X } from "lucide-react";
 import { useT, useLocale } from "@/lib/i18n/locale-context";
 import { useProfile } from "@/lib/store/profile-store";
 import { CardHover, Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { StaggerGrid, StaggerItem } from "@/components/ui/motion";
 import { domains } from "@/lib/data/domains";
 import { jobs, computeMatch } from "@/lib/data/jobs";
 import type { Level } from "@/lib/data/types";
@@ -114,45 +116,49 @@ export default function JobsPage() {
       </p>
 
       {filtered.length > 0 ? (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <StaggerGrid className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map(({ job, match }) => (
-            <CardHover key={job.id} className="flex flex-col gap-3">
-              <div className="flex items-start justify-between gap-2">
-                <Badge tone="default">{domains.find((d) => d.slug === job.domainSlug)?.name[locale]}</Badge>
-                <Badge tone={match >= 60 ? "success" : match >= 30 ? "warning" : "default"}>{match}%</Badge>
-              </div>
-              <h3 className="font-medium text-ink">{job.title[locale]}</h3>
-              <p className="text-xs text-ink-subtle">{job.company}</p>
+            <StaggerItem key={job.id}>
+            <Link href={`/jobs/${job.id}`} className="block">
+              <CardHover className="flex flex-col gap-3">
+                <div className="flex items-start justify-between gap-2">
+                  <Badge tone="default">{domains.find((d) => d.slug === job.domainSlug)?.name[locale]}</Badge>
+                  <Badge tone={match >= 60 ? "success" : match >= 30 ? "warning" : "default"}>{match}%</Badge>
+                </div>
+                <h3 className="font-medium text-ink">{job.title[locale]}</h3>
+                <p className="text-xs text-ink-subtle">{job.company}</p>
 
-              <div className="flex flex-wrap items-center gap-3 text-xs text-ink-subtle">
-                <span className="inline-flex items-center gap-1">
-                  <MapPin size={12} /> {job.location[locale]}
-                </span>
-                {job.remote && (
-                  <span className="inline-flex items-center gap-1 text-primary">
-                    <Wifi size={12} /> {t.jobs.remote}
+                <div className="flex flex-wrap items-center gap-3 text-xs text-ink-subtle">
+                  <span className="inline-flex items-center gap-1">
+                    <MapPin size={12} /> {job.location[locale]}
                   </span>
-                )}
-              </div>
+                  {job.remote && (
+                    <span className="inline-flex items-center gap-1 text-primary">
+                      <Wifi size={12} /> {t.jobs.remote}
+                    </span>
+                  )}
+                </div>
 
-              <div className="flex flex-wrap gap-1.5">
-                {job.requiredSkills.map((s) => (
-                  <Badge key={s} tone="default" className="text-[11px]">
-                    {s}
-                  </Badge>
-                ))}
-              </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {job.requiredSkills.map((s) => (
+                    <Badge key={s} tone="default" className="text-[11px]">
+                      {s}
+                    </Badge>
+                  ))}
+                </div>
 
-              <div className="mt-auto flex items-center justify-between pt-2">
-                <span className="inline-flex items-center gap-1 text-sm font-medium text-ink">
-                  <Banknote size={14} className="text-ink-subtle" />
-                  ${job.salaryRange[0].toLocaleString()}–${job.salaryRange[1].toLocaleString()}
-                </span>
-                <Badge tone="default">{t.common[job.level]}</Badge>
-              </div>
-            </CardHover>
+                <div className="mt-auto flex items-center justify-between pt-2">
+                  <span className="inline-flex items-center gap-1 text-sm font-medium text-ink">
+                    <Banknote size={14} className="text-ink-subtle" />
+                    ${job.salaryRange[0].toLocaleString()}–${job.salaryRange[1].toLocaleString()}
+                  </span>
+                  <Badge tone="default">{t.common[job.level]}</Badge>
+                </div>
+              </CardHover>
+            </Link>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerGrid>
       ) : (
         <Card className="py-12 text-center text-sm text-ink-subtle">{t.common.noResults}</Card>
       )}
